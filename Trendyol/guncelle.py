@@ -40,7 +40,6 @@ def checkBatchRequestResult(end_point,seller_id,user,password,batchRequestId):
     response = requests.request("GET", url, headers=headers, data=payload)
     return(response.text)
 
-
 def getProducts(end_point,seller_id,user,password):
 
     url = f"{end_point}suppliers/{seller_id}/products?page=0&size=1"
@@ -60,7 +59,7 @@ def getProducts(end_point,seller_id,user,password):
 getProducts(end_point_,seller_id_,user_,password_)
 
 
-#result = updatePriceAndInventory(end_point_,seller_id_,user_,password_,jsonfile_)
-#result = json.loads(result)
+result = updatePriceAndInventory(end_point_,seller_id_,user_,password_,jsonfile_)
+result = json.loads(result)
 
 #print(checkBatchRequestResult(end_point_,seller_id_,user_,password_,result['batchRequestId']))
