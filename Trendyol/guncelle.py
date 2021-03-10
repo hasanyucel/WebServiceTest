@@ -40,9 +40,9 @@ def checkBatchRequestResult(end_point,seller_id,user,password,batchRequestId):
     response = requests.request("GET", url, headers=headers, data=payload)
     return(response.text)
 
-def getProducts(end_point,seller_id,user,password):
+def getApprovedProducts(end_point,seller_id,user,password):
 
-    url = f"{end_point}suppliers/{seller_id}/products?page=0&size=1"
+    url = f"{end_point}suppliers/{seller_id}/products?page=1&size=2&approved=true"
 
     payload={}
     headers = {
@@ -54,12 +54,28 @@ def getProducts(end_point,seller_id,user,password):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    print(response.text)
+    return(response.text)
 
-getProducts(end_point_,seller_id_,user_,password_)
+def getProductListPrice(end_point,seller_id,user,password,barcode):
 
+    url = f"{end_point}suppliers/{seller_id}/products?approved=true&barcode={barcode}"
+    payload={}
+    headers = {
+        "Authorization": "Basic {}".format(
+            b64encode(bytes(f"{user}:{password}", "utf-8")).decode("ascii")),
+        "Content-Type": "application/json",
+        "user-agent":f"{seller_id} - SelfIntegration"
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    employee_dict = json.loads(response.text) 
+    print("List Price: ",employee_dict["content"][0]["listPrice"])
+    print("Sale Price: ",employee_dict["content"][0]["salePrice"])
 
-result = updatePriceAndInventory(end_point_,seller_id_,user_,password_,jsonfile_)
-result = json.loads(result)
+getProductListPrice(end_point_,seller_id_,user_,password_,"2100000078727")
+#products = getApprovedProducts(end_point_,seller_id_,user_,password_)
+#print(json.dumps(json.loads(products), sort_keys=True, indent=4, separators=(",", ": ")))
+
+#result = updatePriceAndInventory(end_point_,seller_id_,user_,password_,jsonfile_)
+#result = json.loads(result)
 
 #print(checkBatchRequestResult(end_point_,seller_id_,user_,password_,result['batchRequestId']))
