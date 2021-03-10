@@ -2,14 +2,13 @@ import requests
 import json
 from base64 import b64encode
 
- # Test: https://stageapi.trendyol.com/stagesapigw/ - Prod: https://api.trendyol.com/sapigw/
-jsonfile_ = "stok_guncelle.json"
-#OOP'ye göre düzenleme yapılacak.
-#Create json file methodu yazılacak.
-#Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
+# Test: https://stageapi.trendyol.com/stagesapigw/ - Prod: https://api.trendyol.com/sapigw/
+test = "https://stageapi.trendyol.com/stagesapigw/"
+prod = "https://api.trendyol.com/sapigw/"
+
 class Trendyol:
-    def __init__(self,endpoint,seller_id,user,password):
-        self.end_point = "https://stageapi.trendyol.com/stagesapigw/"
+    def __init__(self,end_point,seller_id,user,password):
+        self.end_point = end_point
         self.seller_id = seller_id
         self.user = user
         self.password = password
@@ -66,15 +65,13 @@ class Trendyol:
         print("List Price: ",employee_dict["content"][0]["listPrice"])
         print("Sale Price: ",employee_dict["content"][0]["salePrice"])
 
-#getProductListPrice(end_point_,seller_id_,user_,password_,"2100000078727")
-#products = getApprovedProducts(end_point_,seller_id_,user_,password_)
-#print(json.dumps(json.loads(products), sort_keys=True, indent=4, separators=(",", ": ")))
-#result = updatePriceAndInventory(end_point_,seller_id_,user_,password_,jsonfile_)
-#result = json.loads(result)
-#print(checkBatchRequestResult(end_point_,seller_id_,user_,password_,result['batchRequestId']))
+    #Create json file methodu yazılacak.
+    #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
+
+jsonfile = "stok_guncelle.json"
 #seller_id = "2738"
 #user = "LPQcjOdyyg5531DAj8J8"
 #password = "H6VTAMwr2kAAIeRMfpRG"
-user1 = Trendyol('','2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
+user1 = Trendyol(test,'2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
 products = user1.getApprovedProducts()
 print(products)
