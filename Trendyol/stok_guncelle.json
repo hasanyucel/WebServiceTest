@@ -2,9 +2,8 @@
     "items": [
         {
             "barcode": "1952084972279",
-            "quantity": 100,
-            "salePrice": 112.85,
-            "listPrice": 113.85
+            "salePrice": 1112.85,
+            "listPrice": 1113.85
         }
     ]
 }

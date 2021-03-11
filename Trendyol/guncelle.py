@@ -73,5 +73,6 @@ jsonfile = "stok_guncelle.json"
 #user = "LPQcjOdyyg5531DAj8J8"
 #password = "H6VTAMwr2kAAIeRMfpRG"
 user1 = Trendyol(test,'2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
-products = user1.getApprovedProducts()
+products = user1.updatePriceAndInventory(jsonfile)
 print(products)
+user1.getProductListPrice("1952084972279")
