@@ -82,7 +82,28 @@ class Trendyol:
         with open("productUpdate.json", "w") as f:
             f.write(j)
 
+    def createUpdateJsonFileFromSqlite(self):
 
+        conn = sqlite3.connect('etipaen.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT barcode,listPrice,salePrice FROM buybox2")
+        rows = cursor.fetchall()
+        print(rows)
+        objects_dict = {}
+        objects_dict["items"] = []
+        for row in rows:
+            d = collections.OrderedDict()
+            d["barcode"] = row[0]
+            d["listPrice"] = row[1]
+            d["salePrice"] = row[2]
+            objects_dict["items"].append(d)
+
+        j = json.dumps(objects_dict,indent=4)
+        with open("productUpdate.json", "w") as f:
+            f.write(j)
+        conn.close()
+
+    
     #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
 
 #seller_id = "2738"
@@ -92,9 +113,9 @@ user1 = Trendyol(test,'2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
 #products = user1.updatePriceAndInventory(jsonfile)
 #print(products)
 #user1.getProductListPrice("1952084972279")
-
+#productList = [('1952084972279', 100.5, 99), ('1952084972280', 115.3, 100)]
+#user1.createUpdateJsonFileFromList(productList)
 start = timeit.timeit()
-productList = [('1952084972279', 100.5, 99), ('1952084972280', 115.3, 100)]
-user1.createUpdateJsonFileFromList(productList)
+user1.createUpdateJsonFileFromSqlite()
 end = timeit.timeit()
 print(start - end)
