@@ -84,7 +84,7 @@ class Trendyol:
 
     def createUpdateJsonFileFromSqlite(self):
 
-        conn = sqlite3.connect('etipaen.db')
+        conn = sqlite3.connect(db)
         cursor = conn.cursor()
         cursor.execute("SELECT barcode,listPrice,salePrice FROM buybox2")
         rows = cursor.fetchall()
