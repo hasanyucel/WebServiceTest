@@ -82,7 +82,7 @@ class Trendyol:
         with open("productUpdate.json", "w") as f:
             f.write(j)
 
-    def createUpdateJsonFileFromSqlite(self):
+    def createUpdateJsonFileFromSqlite(self,db):
 
         conn = sqlite3.connect(db)
         cursor = conn.cursor()
@@ -103,7 +103,6 @@ class Trendyol:
             f.write(j)
         conn.close()
 
-    
     #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
 
 #seller_id = "2738"
@@ -116,6 +115,6 @@ user1 = Trendyol(test,'2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
 #productList = [('1952084972279', 100.5, 99), ('1952084972280', 115.3, 100)]
 #user1.createUpdateJsonFileFromList(productList)
 start = timeit.timeit()
-user1.createUpdateJsonFileFromSqlite()
+user1.createUpdateJsonFileFromSqlite(db)
 end = timeit.timeit()
 print(start - end)
