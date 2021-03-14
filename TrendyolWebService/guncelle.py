@@ -5,7 +5,7 @@ from base64 import b64encode
 import sqlite3 #Test
 import psycopg2 #Postgre
 
-class Trendyol:
+class Trendyol_API:
     def __init__(self,end_point,seller_id,user,password):
         self.end_point = end_point
         self.seller_id = seller_id
@@ -39,7 +39,7 @@ class Trendyol:
         return(response.text)
 
     def getApprovedProducts(self):
-        url = f"{self.end_point}suppliers/{self.seller_id}/products?page=1&size=2&approved=true"
+        url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true"
         payload={}
         headers = {
             "Authorization": "Basic {}".format(
@@ -48,7 +48,8 @@ class Trendyol:
             "user-agent":f"{self.seller_id} - SelfIntegration"
         }
         response = requests.request("GET", url, headers=headers, data=payload)
-        return(response.text)
+        result = json.loads((response.text))
+        return result["batchRequestId"]
 
     def getProductListPrice(self,barcode):
         url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true&barcode={barcode}"
@@ -113,5 +114,7 @@ class Trendyol:
         
     #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
     #Kullanıcının Tüm satışa açık ürünlerini listeye alan fonksiyon ve postgresql tablosuna insert eden fonksiyon
+    #listPrice salePrice'dan küçük olamaz. Kontrol et.
+
 
 

@@ -18,16 +18,17 @@ user1 = ty(test,seller_id,user,password) #Nesne
 #user1.createUpdateJsonFileFromList(productList)
 #user1.createUpdateJsonFileFromSqlite(db)
 start = timeit.timeit()
+
 lst = user1.getBuyboxListFromPostgre()
-print(lst)
+print("getBuyboxListFromPostgre ",lst)
 user1.createUpdateJsonFileFromList(lst)
 result = user1.updatePriceAndInventory(updateJson)
-y = json.loads(result)
-print(y["batchRequestId"])
-batchRes = user1.checkBatchRequestResult(y["batchRequestId"])
-z = json.loads(batchRes)
-json_formatted_str = json.dumps(z, indent=2)
+print("updatePriceAndInventory",result)
+batchRes = user1.checkBatchRequestResult(result)
+json_formatted_str = json.dumps(json.loads(batchRes), indent=2)
 print(json_formatted_str)
+
+
 end = timeit.timeit()
 print(start - end)
 
