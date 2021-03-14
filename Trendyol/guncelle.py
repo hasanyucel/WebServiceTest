@@ -39,7 +39,7 @@ class Trendyol_API:
         return(response.text)
 
     def getApprovedProducts(self):
-        url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true"
+        url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true&size=200000&page=0"
         payload={}
         headers = {
             "Authorization": "Basic {}".format(
@@ -48,8 +48,7 @@ class Trendyol_API:
             "user-agent":f"{self.seller_id} - SelfIntegration"
         }
         response = requests.request("GET", url, headers=headers, data=payload)
-        result = json.loads((response.text))
-        return result["batchRequestId"]
+        return(response.text)
 
     def getProductListPrice(self,barcode):
         url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true&barcode={barcode}"
@@ -115,6 +114,3 @@ class Trendyol_API:
     #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
     #Kullanıcının Tüm satışa açık ürünlerini listeye alan fonksiyon ve postgresql tablosuna insert eden fonksiyon
     #listPrice salePrice'dan küçük olamaz. Kontrol et.
-
-
-

@@ -1,4 +1,4 @@
-from Trendyol.guncelle import Trendyol as ty 
+from guncelle import *
 import timeit
 import json
 
@@ -10,7 +10,7 @@ prod = "https://api.trendyol.com/sapigw/"
 db = "etipaen.db"
 updateJson = "productUpdate.json"
 
-user1 = ty(test,seller_id,user,password) #Nesne
+user1 = Trendyol_API(test,seller_id,user,password) #Nesne
 #products = user1.updatePriceAndInventory(jsonfile)
 #print(products)
 #user1.getProductListPrice("1952084972279")
@@ -19,15 +19,18 @@ user1 = ty(test,seller_id,user,password) #Nesne
 #user1.createUpdateJsonFileFromSqlite(db)
 start = timeit.timeit()
 
-lst = user1.getBuyboxListFromPostgre()
-print("getBuyboxListFromPostgre ",lst)
-user1.createUpdateJsonFileFromList(lst)
-result = user1.updatePriceAndInventory(updateJson)
-print("updatePriceAndInventory",result)
-batchRes = user1.checkBatchRequestResult(result)
-json_formatted_str = json.dumps(json.loads(batchRes), indent=2)
-print(json_formatted_str)
-
+#lst = user1.getBuyboxListFromPostgre()
+#print("getBuyboxListFromPostgre ",lst)
+#user1.createUpdateJsonFileFromList(lst)
+#result = user1.updatePriceAndInventory(updateJson)
+#result = json.loads(result)
+#batchRes = user1.checkBatchRequestResult(result["batchRequestId"])
+#json_formatted_str = json.dumps(json.loads(batchRes), indent=2)
+#print(json_formatted_str)
+result = user1.getApprovedProducts()
+j = json.dumps(json.loads(result), indent=4)
+with open("products.json", "w") as f:
+    f.write(j)
 
 end = timeit.timeit()
 print(start - end)
