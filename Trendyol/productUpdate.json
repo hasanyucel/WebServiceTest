@@ -3,17 +3,17 @@
         {
             "barcode": "2100000207694",
             "listPrice": 599.9,
-            "salePrice": 399.9
+            "salePrice": 499.9
         },
         {
             "barcode": "2100000207695",
             "listPrice": 589.9,
-            "salePrice": 389.9
+            "salePrice": 489.9
         },
         {
             "barcode": "2100000207692",
             "listPrice": 579.9,
-            "salePrice": 379.9
+            "salePrice": 479.9
         }
     ]
 }

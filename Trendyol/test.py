@@ -1,22 +1,34 @@
+from Trendyol.guncelle import Trendyol as ty 
+import timeit
 import json
-import collections
-import sqlite3
 
-conn = sqlite3.connect('etipaen.db')
-cursor = conn.cursor()
-cursor.execute("SELECT barcode,listPrice,salePrice FROM buybox2")
-rows = cursor.fetchall()
-print(rows)
-objects_dict = {}
-objects_dict["items"] = []
-for row in rows:
-    d = collections.OrderedDict()
-    d["barcode"] = row[0]
-    d["listPrice"] = row[1]
-    d["salePrice"] = row[2]
-    objects_dict["items"].append(d)
+seller_id = "2738"
+user = "LPQcjOdyyg5531DAj8J8"
+password = "H6VTAMwr2kAAIeRMfpRG"
+test = "https://stageapi.trendyol.com/stagesapigw/"
+prod = "https://api.trendyol.com/sapigw/"
+db = "etipaen.db"
+updateJson = "productUpdate.json"
 
-j = json.dumps(objects_dict,indent=4)
-with open("products.json", "w") as f:
-    f.write(j)
-conn.close()
+user1 = ty(test,seller_id,user,password) #Nesne
+#products = user1.updatePriceAndInventory(jsonfile)
+#print(products)
+#user1.getProductListPrice("1952084972279")
+#productList = [('1952084972279', 100.5, 99), ('1952084972280', 115.3, 100)]
+#user1.createUpdateJsonFileFromList(productList)
+#user1.createUpdateJsonFileFromSqlite(db)
+start = timeit.timeit()
+lst = user1.getBuyboxListFromPostgre()
+print(lst)
+user1.createUpdateJsonFileFromList(lst)
+result = user1.updatePriceAndInventory(updateJson)
+y = json.loads(result)
+print(y["batchRequestId"])
+batchRes = user1.checkBatchRequestResult(y["batchRequestId"])
+z = json.loads(batchRes)
+json_formatted_str = json.dumps(z, indent=2)
+print(json_formatted_str)
+end = timeit.timeit()
+print(start - end)
+
+
