@@ -3,12 +3,14 @@ import json
 import collections
 from base64 import b64encode
 import sqlite3 #Test
+import psycopg2 #Postgre
 import timeit
 
 # Test: https://stageapi.trendyol.com/stagesapigw/ - Prod: https://api.trendyol.com/sapigw/
 test = "https://stageapi.trendyol.com/stagesapigw/"
 prod = "https://api.trendyol.com/sapigw/"
 db = "etipaen.db"
+updateJson = "productUpdate.json"
 class Trendyol:
     def __init__(self,end_point,seller_id,user,password):
         self.end_point = end_point
@@ -103,7 +105,20 @@ class Trendyol:
             f.write(j)
         conn.close()
 
+    def getBuyboxListFromPostgre(self):
+        db = psycopg2.connect(user = "postgres",
+                      password = "postgres",
+                      host = "localhost",
+                      port = "5432",
+                      database = "etipaen")
+        imlec = db.cursor()
+        imlec.execute("""Select * from buybox""")
+        rows = imlec.fetchall()
+        return(rows)
+
+        
     #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
+    #Kullanıcının Tüm satışa açık ürünlerini 
 
 #seller_id = "2738"
 #user = "LPQcjOdyyg5531DAj8J8"
@@ -114,7 +129,11 @@ user1 = Trendyol(test,'2738','LPQcjOdyyg5531DAj8J8','H6VTAMwr2kAAIeRMfpRG')
 #user1.getProductListPrice("1952084972279")
 #productList = [('1952084972279', 100.5, 99), ('1952084972280', 115.3, 100)]
 #user1.createUpdateJsonFileFromList(productList)
+#user1.createUpdateJsonFileFromSqlite(db)
 start = timeit.timeit()
-user1.createUpdateJsonFileFromSqlite(db)
+lst = user1.getBuyboxListFromPostgre()
+print(lst)
+user1.createUpdateJsonFileFromList(lst)
+user1.updatePriceAndInventory(updateJson)
 end = timeit.timeit()
 print(start - end)
