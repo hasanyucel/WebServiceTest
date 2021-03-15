@@ -111,6 +111,9 @@ class Trendyol_API:
         return(rows)
 
         
-    #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
     #Kullanıcının Tüm satışa açık ürünlerini listeye alan fonksiyon ve postgresql tablosuna insert eden fonksiyon
+    #Buybox bilgilerini gireceği bir fonksiyon.
+    #buybox tablosunda aktif olanların kontrolünü yapan fonksiyon temp tabloya yazıp fiyat kontrolü yapabilir, fiyat güncellemesi gerekliyse güncellemeye gönderecek.
+    #Ürün sayısını kontrol ettirerek al!
     #listPrice salePrice'dan küçük olamaz. Kontrol et.
+    #Request Resultlarını inceleyip problemli olanları döndüren bir fonksiyon yaz.
