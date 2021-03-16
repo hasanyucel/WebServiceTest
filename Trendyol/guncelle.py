@@ -39,7 +39,7 @@ class Trendyol_API:
         return(response.text)
 
     def getApprovedProducts(self):
-        url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true&size=200000&page=0"
+        url = f"{self.end_point}suppliers/{self.seller_id}/products?approved=true&size=200&page=0"
         payload={}
         headers = {
             "Authorization": "Basic {}".format(
@@ -110,8 +110,21 @@ class Trendyol_API:
         rows = imlec.fetchall()
         return(rows)
 
-        
-    #Kullanıcının Tüm satışa açık ürünlerini listeye alan fonksiyon ve postgresql tablosuna insert eden fonksiyon
+    def insertProductsToPostgre(self,products):
+        db = psycopg2.connect(user = "postgres",
+                      password = "postgres",
+                      host = "localhost",
+                      port = "5432",
+                      database = "etipaen")
+        imlec = db.cursor()
+        data = json.loads(products)
+        for p in data['content']:
+            postgres_insert_query = """ INSERT INTO buybox(barcode, "listPrice", "salePrice") VALUES (%s,%s,%s)"""
+            record_to_insert = (p['barcode'], p['listPrice'], p['salePrice'])
+            imlec.execute(postgres_insert_query, record_to_insert)
+            db.commit()
+        db.close()
+
     #Buybox bilgilerini gireceği bir fonksiyon.
     #buybox tablosunda aktif olanların kontrolünü yapan fonksiyon temp tabloya yazıp fiyat kontrolü yapabilir, fiyat güncellemesi gerekliyse güncellemeye gönderecek.
     #Ürün sayısını kontrol ettirerek al!
